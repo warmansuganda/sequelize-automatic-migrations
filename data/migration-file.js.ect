@@ -9,6 +9,9 @@ module.exports = {
 <% if field.references?.model : %>
         references: <%- JSON.stringify field.references %>,
 <% end %>
+<% if field.defaultValue?.val : %>
+        defaultValue: Sequelize.<%- field.defaultValue.val %>,
+<% end %>
 <% for opt in @fieldOpts : %>
 <% if not field[opt].isEmpty() : %>
         <%- opt %> : <%- field[opt] %>,

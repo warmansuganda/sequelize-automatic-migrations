@@ -60,8 +60,8 @@ function Field(attr) {
     this.name = attr.field;
 
     this.autoIncrement = new Val(attr.autoIncrement);
-    this.allowNull = new Val(attr.allowNull);
     this.defaultValue = new Val(attr.defaultValue);
+    this.allowNull = new Val(attr.allowNull);
     this.primaryKey = new Val(attr.primaryKey);
     this.onDelete = new QuotedVal(attr.onDelete);
     this.onUpdate = new QuotedVal(attr.onUpdate);
@@ -72,6 +72,11 @@ function Field(attr) {
     this.values = new ValuesVal(options.values);
     this.length = new LengthVal(options.length);
 
+    if (this.defaultValue.val && typeof this.defaultValue.val === 'object') {
+        const _defaultValue = this.defaultValue.val
+        const objName = _defaultValue.constructor.name;
+        this.defaultValue.val = `${objName}('${_defaultValue.val}')`
+    }
 }
 
 Field.create = function (attr) {
@@ -81,7 +86,7 @@ Field.create = function (attr) {
 Field.opts = [
     'autoIncrement',
     'allowNull',
-    'defaultValue',
+    // 'defaultValue',
     'primaryKey',
     'onDelete',
     'onUpdate'
